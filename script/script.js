@@ -1,63 +1,33 @@
 // 1) написать валидацию для пароля - он принимает только латиницу и числа, длина должна быть не менее 6-ти знаков и
 // содержать должен и буквы и цифры. функция возвращает "valid" || "invalid"
 
-function isValidationPassword(value) {
+function validationString(value) {
     const minLength = 6;
     const validMessage = 'valid';
     const inValidMessage = 'invalid';
 
-    value = value.toString();
-
     if (value.length < minLength) {
-
         return inValidMessage;
     }
 
-    if (_isValidationReg(value)) {
-
-        return inValidMessage;
-    }
-
-    return validMessage;
+    return (value.search(/[0-9]/) > -1) && (value.search(/[a-zA-Z]/) > -1) ? validMessage : inValidMessage
 }
 
-function _isValidationReg(value) {
-    const minPosition = -1;
-    const regNumber = /[0-9]/;
-    const regString = /[a-zA-Z]/;
-    const positionString = value.search(regString);
-    const positionNumber = value.search(regNumber);
 
-    return (minPosition === positionString || minPosition === positionNumber);
-}
-
-isValidationPassword('dasasdvasd23esdc32');
+validationString('qweewqewqeqw2');
 
 
 // 2. функция принимает массив чисел, необходимо проверить его на четные и не четные, числа, вывести первое число
 // (четное или не четное), в зависимости от того, каких чисел меньше
 
-function isValidationArray(value) {
-    let notEvenSum = 0;
+function validationArray(arrNumber) {
+    const even = arrNumber.filter((e) => !(e % 2));
+    const odd = arrNumber.filter((e) => (e % 2));
 
-    value.forEach((item) => {
-        if (item % 2) {
-            notEvenSum++
-        }
-    });
-
-    if (notEvenSum > value.length / 2) {
-        return value.find((item) => item % 2);
-    } else {
-        return value.find((item) => {
-            if (item % 2 === 0) {
-                return item;
-            }
-        });
-    }
+    return (even.length > odd.length) ? odd[0] : even[0];
 }
 
-isValidationArray([1, 2, 3, 5, 7, 4, 6, 8, 10, 12, 11, 13, 15]);
+validationArray([2, 2, 4, 5, 7, 4, 6, 8, 10, 12, 11, 13, 15]);
 
 
 //3. написать функцию, которое принимает число и проверяет его на: простое ли оно, четное ли оно и делится ли оно на
@@ -65,30 +35,28 @@ isValidationArray([1, 2, 3, 5, 7, 4, 6, 8, 10, 12, 11, 13, 15]);
 // ответами на каждое условие отделбно ['true', 'true', 'false']
 
 
-function isValidationNumber(value) {
-    let answers = [];
+function validationNumber(n) {
+    let arr = [];
 
-    answers.push(_isPrime(value));
-    answers.push(!(value % 2));
-    answers.push(!(value % 10));
+    arr.push(isPrime);
+    arr.push(!(n % 2));
+    arr.push(n.toString()[n.length - 1] === 0);
 
-    return answers;
+    return arr
 }
 
-function _isPrime(number) {
-    let i, index = 0;
-
-    if (number < 1) {
+function isPrime(n) {
+    if (n === 1)
         return false;
-    }
 
-    for (i = 2; i <= number; i++) {
-        if ((number % i) === 0) {
-            index++;
+    for (let i = 2; i * i <= n; i++) {
+        if (n % i === 0) {
+            return false;
         }
     }
 
-    return (index === 1);
+    return true;
 }
 
-isValidationNumber(71233);
+
+validationNumber(7123312);
